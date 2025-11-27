@@ -9,9 +9,6 @@
       "distribution": "internal",
       "android": {
         "image": "latest"
-      },
-      "ios": {
-        "image": "latest"
       }
     },
     "development-simulator": {
@@ -24,19 +21,14 @@
       "distribution": "internal",
       "channel": "main",
       "android": {
-        "image": "latest"
-      },
-      "ios": {
-        "image": "latest"
+        "image": "latest",
+        "buildType": "apk"
       }
     },
     "production": {
       "channel": "production",
       "autoIncrement": true,
       "android": {
-        "image": "latest"
-      },
-      "ios": {
         "image": "latest"
       }
     }

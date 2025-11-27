@@ -21,9 +21,12 @@ import { useCategories } from '@/context/CategoriesContext';
 
 import { router, useFocusEffect } from 'expo-router';
 
-require('dotenv').config();
+import { getBaseUrl } from '../utils/api';
+
+// require('dotenv').config();
 
 export default function CameraScreen() {
+  // const API_URL = process.env.API_URL;
   const MAX_CATEGORIES = 5
 
   // colores (máx. 5 categorías)
@@ -35,8 +38,6 @@ export default function CameraScreen() {
     '#AF52DE', 
   ];
 
-  const API_URL = process.env.API_URL;
-
   // estados
   const { categories, setCategories } = useCategories();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
@@ -47,6 +48,7 @@ export default function CameraScreen() {
   useFocusEffect(
     useCallback(() => {
       const fetchCounts = async () => {
+        const API_URL = await getBaseUrl();
         const URL = API_URL + '/quantity'
         try {
           const response = await fetch(URL);
@@ -71,6 +73,7 @@ export default function CameraScreen() {
   }, []);
 
   const sendPhotoToTrain = async (photoUri: string, label: string) => {
+    const API_URL = await getBaseUrl();
     const URL = API_URL + "/upload";
     const formData = new FormData();
 
@@ -230,6 +233,7 @@ export default function CameraScreen() {
   };
 
   const deleteCategoryOnServer = async (categoryLabel: string) => {
+    const API_URL = await getBaseUrl();
     const URL = API_URL + "/delete-category";
     const response = await fetch(URL, {
         method: 'POST',

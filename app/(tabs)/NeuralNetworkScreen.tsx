@@ -12,12 +12,13 @@ import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 import { ThemedText } from '@/components/themed-text';
-import * as ImagePicker from 'expo-image-picker';
-
 import * as FileSystem from 'expo-file-system';
+import * as ImagePicker from 'expo-image-picker';
 import * as Sharing from 'expo-sharing';
 
-const API_URL = 'http://192.168.0.89:5000/';
+import { getBaseUrl } from '../utils/api';
+// require('dotenv').config();
+// const API_URL = process.env.API_URL;
 
 // primera capa L1
 const L1_NODES = Array.from({ length: 3 }).map((_, i) => ({
@@ -90,6 +91,7 @@ export default function NeuralNetworkScreen() {
   const [cameraPermission, requestPermission] = ImagePicker.useCameraPermissions();
 
   const handlePredictRequest = async (imageUri: string) => {
+    const API_URL = await getBaseUrl();
     const URL = API_URL + '/predict';
     
     const formData = new FormData();
@@ -137,6 +139,7 @@ export default function NeuralNetworkScreen() {
 
   // entrenamiento endpoint
   const handleTrain = async () => {
+    const API_URL = await getBaseUrl();
     const URL = API_URL + '/train';
 
     try {  
@@ -178,6 +181,7 @@ export default function NeuralNetworkScreen() {
 
   const descargarDataset = async () => {
     try {
+      const API_URL = await getBaseUrl();
       const URL = API_URL + '/download-dataset';
       const uniqueTimestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const tempFileName = `dataset_${uniqueTimestamp}.zip`;
@@ -204,6 +208,7 @@ export default function NeuralNetworkScreen() {
 
   const descargarModelo = async () => {
     try {
+      const API_URL = await getBaseUrl();
       const URL = API_URL + '/download-model';
       const uniqueTimestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const tempFileName = `model_${uniqueTimestamp}.keras`;
